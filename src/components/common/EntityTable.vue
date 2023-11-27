@@ -85,6 +85,22 @@
             </slot>
           </template>
 
+          <template #[`item.isHidden`]="{ item }">
+            <v-tooltip
+              v-if="item.columns.isHidden"
+              location="top"
+              text="This product is hidden"
+            >
+              <template #activator="{ props }">
+                <font-awesome-icon
+                  v-bind="props"
+                  icon="fa-regular fa-eye-slash"
+                  size="xl"
+                />
+              </template>
+            </v-tooltip>
+          </template>
+
           <template #[`item.price`]="{ item }">
             <slot> {{ item.columns.price }}$ </slot>
           </template>
@@ -180,6 +196,7 @@ const Component = defineComponent({
       total: computed(() => store.getters[`${storePath}/count`]),
       headers: props.headers,
       editableHeaders: editableHeaders(props.headers),
+      showTooltip: false,
       options: {
         page: computed(() => store.getters[`${storePath}/queryPage`]),
         itemsPerPage: computed(() => store.getters[`${storePath}/queryRowsPerPage`]),

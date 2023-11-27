@@ -42,6 +42,9 @@
               data-test="product-categoryId"
             />
           </v-col>
+          <v-col cols="12">
+            <v-checkbox v-model="state.entity.isHidden" label="Hidden"></v-checkbox>
+          </v-col>
         </v-row>
       </div>
     </template>
