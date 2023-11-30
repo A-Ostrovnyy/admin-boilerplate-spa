@@ -111,7 +111,8 @@
           </template>
 
           <template #[`item.tags`]="{ item }">
-            <v-chip-group>
+            <p v-if="item.columns.tags.length === 0">No tags</p>
+            <v-chip-group v-if="item.columns.tags.length > 0">
               <v-chip v-for="tag in item.columns.tags" :key="tag.id">{{
                 tag.name
               }}</v-chip>

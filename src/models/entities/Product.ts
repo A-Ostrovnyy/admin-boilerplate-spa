@@ -1,4 +1,5 @@
 import Entity from './Entity';
+import { Tag } from './Tag';
 
 export class Product implements Entity {
   public id?: string;
@@ -7,6 +8,7 @@ export class Product implements Entity {
   public description = '';
   public isHidden = false;
   public tagIds = [];
+  public tags?: Tag[] = [];
 
   constructor(initData: Partial<Product>) {
     Object.assign(this, initData);
