@@ -99,6 +99,15 @@
                 />
               </template>
             </v-tooltip>
+            <v-tooltip
+              v-if="!item.columns.isHidden"
+              location="top"
+              text="This product is visible"
+            >
+              <template #activator="{ props }">
+                <font-awesome-icon v-bind="props" icon="fa-regular fa-eye" size="xl" />
+              </template>
+            </v-tooltip>
           </template>
 
           <template #[`item.price`]="{ item }">

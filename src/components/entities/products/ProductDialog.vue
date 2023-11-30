@@ -42,6 +42,18 @@
               data-test="product-categoryId"
             />
           </v-col>
+          <v-col cols="12">
+            <v-checkbox v-model="state.entity.isHidden" label="Hidden"></v-checkbox>
+          </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="state.entity.tagIds"
+              :items="tagList"
+              chips
+              label="Chips"
+              multiple
+            ></v-select>
+          </v-col>
         </v-row>
       </div>
     </template>
@@ -53,6 +65,7 @@ import { defineComponent, onBeforeMount, reactive, watch, computed, ref, Ref } f
 import EntityDialog from '@/components/common/EntityDialog.vue';
 import { Product } from '../../../models/entities/Product';
 import { useRouter } from 'vue-router';
+
 import { useStore } from 'vuex';
 interface State {
   entity: Product;
@@ -80,6 +93,7 @@ const Component = defineComponent({
     const isNew = () => !props.id;
 
     let listCategory: Ref<string[]> = ref([]);
+    let tagList: Ref<string[]> = ref([]);
     onBeforeMount(async () => {
       if (!isNew()) {
         const res = await store.dispatch(`productsModule/fetchItem`, props.id);
@@ -89,10 +103,12 @@ const Component = defineComponent({
         'categoriesModule/fetchAllItems',
         undefined,
       );
+      tagList.value = await store.dispatch('tagsModule/fetchAllItems', undefined);
     });
 
     const state = reactive({
       entity: product,
+
       loading: computed(() => store.getters['productsModule/loading']),
     }) as State;
     watch(
@@ -118,6 +134,7 @@ const Component = defineComponent({
       rules,
       isNew,
       listCategory,
+      tagList,
     };
   },
 });

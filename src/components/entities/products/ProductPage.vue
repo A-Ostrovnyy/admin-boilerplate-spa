@@ -45,6 +45,18 @@
           <v-col cols="12">
             <v-checkbox v-model="state.entity.isHidden" label="Hidden"></v-checkbox>
           </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="state.entity.tagIds"
+              :items="tagList"
+              item-title="name"
+              item-value="id"
+              chips
+              label="Tags"
+              multiple
+              single-line
+            ></v-select>
+          </v-col>
         </v-row>
       </div>
     </template>
@@ -83,6 +95,7 @@ const Component = defineComponent({
     const product = new Product({});
     const isNew = () => !props.id;
     let listCategory: Ref<string[]> = ref([]);
+    let tagList: Ref<string[]> = ref([]);
     onBeforeMount(async () => {
       if (!isNew()) {
         const res = await store.dispatch(`productsModule/fetchItem`, props.id);
@@ -92,6 +105,7 @@ const Component = defineComponent({
         'categoriesModule/fetchAllItems',
         undefined,
       );
+      tagList.value = await store.dispatch('tagsModule/fetchAllItems', undefined);
     });
 
     const state = reactive({
@@ -119,6 +133,7 @@ const Component = defineComponent({
       rules,
       isNew,
       listCategory,
+      tagList,
     };
   },
 });
