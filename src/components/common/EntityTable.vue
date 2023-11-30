@@ -99,6 +99,24 @@
                 />
               </template>
             </v-tooltip>
+            <v-tooltip
+              v-if="!item.columns.isHidden"
+              location="top"
+              text="This product is visible"
+            >
+              <template #activator="{ props }">
+                <font-awesome-icon v-bind="props" icon="fa-regular fa-eye" size="xl" />
+              </template>
+            </v-tooltip>
+          </template>
+
+          <template #[`item.tags`]="{ item }">
+            <p v-if="item.columns.tags.length === 0">No tags</p>
+            <v-chip-group v-if="item.columns.tags.length > 0">
+              <v-chip v-for="tag in item.columns.tags" :key="tag.id">{{
+                tag.name
+              }}</v-chip>
+            </v-chip-group>
           </template>
 
           <template #[`item.price`]="{ item }">
