@@ -110,6 +110,14 @@
             </v-tooltip>
           </template>
 
+          <template #[`item.tags`]="{ item }">
+            <v-chip-group>
+              <v-chip v-for="tag in item.columns.tags" :key="tag.id">{{
+                tag.name
+              }}</v-chip>
+            </v-chip-group>
+          </template>
+
           <template #[`item.price`]="{ item }">
             <slot> {{ item.columns.price }}$ </slot>
           </template>

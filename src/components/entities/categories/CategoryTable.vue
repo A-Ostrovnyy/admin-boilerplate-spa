@@ -21,6 +21,7 @@ const Component = defineComponent({
       headers: [
         { title: 'Name', key: 'name', searchable: true },
         { title: 'Parent Category ID', key: 'categoryId' },
+        { title: 'Tags', key: 'tags' },
         { title: 'Details', key: 'actions', align: 'end', sortable: false },
       ],
     });
