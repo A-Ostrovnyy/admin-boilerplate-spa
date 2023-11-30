@@ -101,6 +101,8 @@ const Component = defineComponent({
         const res = await store.dispatch(`productsModule/fetchItem`, props.id);
         if (!res) router.back();
       }
+
+      // TODO rewrite to Promise.allSettled
       listCategory.value = await store.dispatch(
         'categoriesModule/fetchAllItems',
         undefined,

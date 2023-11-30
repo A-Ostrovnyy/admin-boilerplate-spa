@@ -24,7 +24,7 @@
           <v-col cols="12">
             <v-select
               v-model="state.entity.categoryId"
-              label="Parent Category"
+              label="Parent Category TEST"
               variant="outlined"
               hide-details="auto"
               :items="listCategory"
@@ -33,6 +33,18 @@
               data-test="product-categoryId"
             />
           </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="state.entity.tagIds"
+              :items="tagList"
+              item-title="name"
+              item-value="id"
+              chips
+              label="Tags"
+              multiple
+              single-line
+            ></v-select>
+          </v-col>
         </v-row>
       </div>
     </template>
@@ -40,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive, watch, computed, ref } from 'vue';
+import { defineComponent, onBeforeMount, reactive, watch, computed, ref, Ref } from 'vue';
 import EntityDialog from '@/components/common/EntityDialog.vue';
 import { Category } from '../../../models/entities/Category';
 
@@ -73,16 +85,20 @@ const Component = defineComponent({
     const isNew = () => !props.id;
 
     let listCategory = ref(<Category[]>[]);
+    let tagList: Ref<string[]> = ref([]);
 
     onBeforeMount(async () => {
       if (!isNew()) {
         const res = await store.dispatch('categoriesModule/fetchItem', props.id);
         if (!res) router.back();
       }
+
+      // TODO rewrite to Promise.allSettled
       listCategory.value = await store.dispatch(
         'categoriesModule/fetchAllItems',
         undefined,
       );
+      tagList.value = await store.dispatch('tagsModule/fetchAllItems', undefined);
     });
 
     const state = reactive({
@@ -112,6 +128,7 @@ const Component = defineComponent({
       rules,
       isNew,
       listCategory,
+      tagList,
     };
   },
 });
